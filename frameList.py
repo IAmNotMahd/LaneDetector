@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os
 import sys
 import shutil
@@ -155,15 +157,13 @@ for i in range(len(framesSorted)):
 	existTxt = open(existName, 'r')
 	existRead = existTxt.read().replace("\n", "")
 	existList = existRead.split(" ")[:-1]
-	#print("FRAME NUMBER IS " + frame)
-	#print("THE LANES ARE " + str(existList))
 	laneCount = 0
 	for j in existList:
 		if j == '1':
 			laneCount = laneCount + 1
-	existTxt.close()
 	finalList.append(laneCount)
 	frameLanes[int(frame)] = finalList
+	existTxt.close()
 
 
 # ****************
@@ -191,8 +191,8 @@ for i in range(len(framesSorted)):
 				if ((xCoord < 700) and (yCoord > 350)):
 					foundLane = True
 					count = count + 1
-	coordTxt.close()
 	frameLanes[int(frame)].append(count)
+	coordTxt.close()
 
 
 # ****************
@@ -206,6 +206,7 @@ for i in range(len(framesSorted)):
 	confRead = confTxt.read().replace("\n", "")
 	confList = confRead.split(" ")[:-1]
 	frameLanes[int(frame)].append(confList)
+	confTxt.close()
 
 
 # ****************
@@ -222,18 +223,3 @@ for i in range(len(framesSorted)):
 	data.append({"frame": frame, "lanes_count": count, "current_lane": lane, "confidence": conf})
 json.dump(data, jsonFile, indent=4)
 jsonFile.close()
-
-'''
-root=../../
-data_dir=${root}data/
-exp=vgg_SCNN_DULR_w9
-detect_dir=${root}tools/prob2lines/output/${exp}/
-w_lane=30;
-iou=0.5;  # Set iou to 0.3 or 0.5
-im_w=1640
-im_h=590
-frame=1
-list=${data_dir}example-swarm-data/test.txt
-out=./output/${exp}_iou${iou}.txt
-./evaluate -a $data_dir -d $detect_dir -i $data_dir -l $list -w $w_lane -t $iou -c $im_w -r $im_h -f $frame -o $out
-'''
