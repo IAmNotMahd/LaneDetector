@@ -1,9 +1,13 @@
 #!/bin/bash
-dataset_flag=$1
+# Installing Torch
+if echo $* | grep -e "-t" -q; then
+	echo "installing torch"
+
+fi
 # Downloading SCNN
 git clone https://github.com/XingangPan/SCNN.git
 # Downloading Dataset
-if [ "$dataset_flag" = "d" ]; then
+if echo $* | grep -e "-d" -q; then
 	mkdir -p data/CULane
 	cd data/CULane
 	echo "Downloading Dataset"
@@ -58,3 +62,4 @@ cp Backup/seg_label_generator.cpp SCNN/seg_label_generate/src/
 cp Backup/seg_label_generator.hpp SCNN/seg_label_generate/include/
 cp Backup/test.sh SCNN/experiments/
 cp Backup/testLane.lua SCNN/
+cp Backup
