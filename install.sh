@@ -2,7 +2,11 @@
 # Installing Torch
 if echo $* | grep -e "-t" -q; then
 	echo "installing torch"
-
+	git clone https://github.com/torch/distro.git ~/torch --recursive
+	cd ~/torch; bash install-deps;
+	cd ~/torch; bash install-deps;
+	./install.sh
+	source ~/.bashrc
 fi
 # Downloading Dataset
 if echo $* | grep -e "-d" -q; then
