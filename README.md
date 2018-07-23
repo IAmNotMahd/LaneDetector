@@ -24,9 +24,14 @@ LaneDetector, at its core, is Spatial Convolutional Neural Network (SCNN) develo
 
 ### Installation
 Run install.sh with the required flags that you need
+
 		a. "-t" to install torch
+
 		b. "-d" to download the dataset from CULane
+
 		c. "-w" to download the weigths file from S3
+
 		d. "-c" to clean up the custom code and replace with original SCNN files
+		
 install.sh copies custom scripts from the Backup folder into their correct directories
 
