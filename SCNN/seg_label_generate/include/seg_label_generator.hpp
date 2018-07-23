@@ -22,7 +22,7 @@ class SegLabelGenerator : public LabelGenerator{
 				y_seq.push_back(im_height - i*y_step);
 			}
 			window_name = "im";
-			namedWindow(window_name, 1);
+			// namedWindow(window_name, 1);
 		}
 		virtual void readLabelFile(const string &file, const string &turn_type_file = "");
 		void showLabels(const string &im_name, int width, int wait_time = 0);

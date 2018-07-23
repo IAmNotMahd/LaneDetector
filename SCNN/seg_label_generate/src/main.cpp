@@ -84,7 +84,7 @@ int main(int argc, char **argv)
 		output_file = list_file.substr(0, list_file.find_last_of(".")) + "_gt.txt";
 		ofs_out_file.open(output_file, ios::out);
 	}
-	
+
 	SegLabelGenerator seg_label_generator;	
 
 	ifstream ifs_list(list_file, ios::in);
@@ -105,8 +105,10 @@ int main(int argc, char **argv)
 		seg_label_generator.readLabelFile(line_label_file);
 		if(count%100==0)
 			cout << count << ": " << im_name << endl;
-		if(is_show)
+
+		if(is_show){
 			seg_label_generator.showLabels(im_name, width);
+		}
 		else
 		{
 			// output result

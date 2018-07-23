@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # modify CULane to yours
-CULane=~/works/SCNN/data/CULane
-OutputPath=${CULane}/laneseg_label
+CULane=~/SCNN/data
+OutputPath=${CULane}
 if [ ! -d $OutputPath ]; then
   mkdir $OutputPath
 fi
 ./seg_label_generate \
-    -l ${CULane}/list/train.txt \
+    -l ${CULane}/example-swarm-data/test.txt \
     -m imgLabel \
     -d $CULane \
     -w 16 \

@@ -281,6 +281,9 @@ void SegLabelGenerator::updateLabels(vector<vector<Point2f> > &lanes)
 
 void SegLabelGenerator::showLabels(const string &im_name, int width, int wait_time)
 {
+	string image_path = im_name;
+	int index = image_path.find_last_of('/');
+	string output_image_path = image_path.substr(0,index - 7) + "Curves" + "/" + image_path.substr(index + 1);
 	Mat im = imread(im_name, 1);
 	Mat im2 = imread(im_name, 1);
 	const Scalar color_y_seq = Scalar(70, 120, 60);
@@ -331,11 +334,14 @@ void SegLabelGenerator::showLabels(const string &im_name, int width, int wait_ti
 
 	}
 	resize(im, im, Size(820,295), 0, 0, INTER_NEAREST);
+	//imshow(window_name, im);
+	printf("im_name is %s\n", im_name.c_str());
+	printf("output_image_path is %s\n", output_image_path.c_str());
 
-	imshow(window_name, im);
+	imwrite(output_image_path, im);
 	//namedWindow("origin", 1);
 	//imshow("origin", im2);
-	waitKey(wait_time);
+	//waitKey(wait_time);
 }
 
 void SegLabelGenerator::outputimLabels(const string &output_path, const string &sub_im_name, int width, bool Flip)

@@ -119,8 +119,12 @@ for n, sample in valLoader:run() do
          image.save(savePath, outputn[{i+1-offset,{},{}}])
       end
       local existPath = opt.save .. string.sub(ffi.string(imgpath[b]:data()), 1, -4) .. 'exist.txt'
+      local confPath = opt.save .. string.sub(ffi.string(imgpath[b]:data()), 1, -4) .. 'conf.txt'
       local f = assert(io.open(existPath, 'w'))
+      local confFile = assert(io.open(confPath, 'w'))
       for i = 1,4 do
+         confFile:write(exist[b][i])
+         confFile:write(' ')
          if exist[b][i] > 0.5 then
             f:write('1 ')
          else
