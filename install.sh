@@ -4,13 +4,11 @@ if echo $* | grep -e "-t" -q; then
 	echo "installing torch"
 
 fi
-# Downloading SCNN
-git clone https://github.com/XingangPan/SCNN.git
 # Downloading Dataset
 if echo $* | grep -e "-d" -q; then
-	mkdir -p data/CULane
-	cd data/CULane
 	echo "Downloading Dataset"
+	mkdir -p SCNN/data/CULane
+	cd SCNN/data/CULane
 	wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1QbB1TOk9Fy6Sk0CoOsR3V8R56_eG6Xnu' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1QbB1TOk9Fy6Sk0CoOsR3V8R56_eG6Xnu" -O annotations_new.tar.gz && rm -rf /tmp/cookies.txt
 	wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=14Gi1AXbgkqvSysuoLyq1CsjFSypvoLVL' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=14Gi1AXbgkqvSysuoLyq1CsjFSypvoLVL" -O driver_23_30frame.tar.gz && rm -rf /tmp/cookies.txt
 	wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Z6a463FQ3pfP54HMwF3QS5h9p2Ch3An7' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1Z6a463FQ3pfP54HMwF3QS5h9p2Ch3An7" -O driver_37_30frame.tar.gz && rm -rf /tmp/cookies.txt
@@ -43,17 +41,18 @@ if echo $* | grep -e "-d" -q; then
 	rm list.tar.gz
 	cd ..
 	cd ..
+	cd ..
 fi
 # Downloading weights file
-cd SCNN/experiments/pretrained
-echo "Downloading Weights"
-wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Wv3r3dCYNBwJdKl_WPEfrEOt-XGaROKu' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1Wv3r3dCYNBwJdKl_WPEfrEOt-XGaROKu" -O vgg_SCNN_DULR_w9.t7 && rm -rf /tmp/cookies.txt
-cd ..
-cd ..
-# Downloading seglabelgenerator
-git clone https://github.com/XingangPan/seg_label_generate.git
+if echo $* | grep -e "-w" -q; then
+	echo "Downloading Weights"
+	cd SCNN/experiments/pretrained
+	wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1Wv3r3dCYNBwJdKl_WPEfrEOt-XGaROKu' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1Wv3r3dCYNBwJdKl_WPEfrEOt-XGaROKu" -O vgg_SCNN_DULR_w9.t7 && rm -rf /tmp/cookies.txt
+	cd ..
+	cd ..
+	cd ..
+fi
 # Replacing files with custom files
-cd ..
 cp Backup/frameList.py SCNN/data/
 cp Backup/labelGen.sh SCNN/seg_label_generate/
 cp Backup/main.cpp SCNN/seg_label_generate/src/
@@ -62,4 +61,3 @@ cp Backup/seg_label_generator.cpp SCNN/seg_label_generate/src/
 cp Backup/seg_label_generator.hpp SCNN/seg_label_generate/include/
 cp Backup/test.sh SCNN/experiments/
 cp Backup/testLane.lua SCNN/
-cp Backup
