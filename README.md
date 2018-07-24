@@ -37,6 +37,7 @@ Run install.sh with the required flags that you need
 install.sh copies custom scripts from the Backup folder into their correct directories
 
 ### Directory Structure
+output directory structure, SCNN directory structure, high-level directory structure
 
 ### CLI Usage
 image and video
