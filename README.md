@@ -13,6 +13,7 @@ LaneDetector, at its core, is Spatial Convolutional Neural Network (SCNN) develo
 - Detect type of lane marking as well (double yellow line, single white line etc.)
 - Propagate information between frames
 - Create docker container for SCNN
+- Improve video generation (ffmpeg is bad)
 - Train SCNN more on swarm images
 
 ### Requirements

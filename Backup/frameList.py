@@ -5,11 +5,19 @@ import sys
 import shutil
 import json
 import subprocess
+import argparse
 from contextlib import contextmanager
 from PIL import Image
 from numpy import *
 
-source = "data/example-swarm-data/culane data"
+parser = argparse.ArgumentParser()
+parser.add_argument("source", help = "Path to video or image directory")
+parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true")
+parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true")
+args = parser.parse_args()
+
+source = args.source
+#source = "data/example-swarm-data/culane data"
 #source = "data/example-swarm-data/swarm-data.mp4"
 base = "/".join(source.split("/")[:-1]) + "/"
 predict = base + "predicts/"
@@ -84,9 +92,12 @@ txt.close()
 # ****************
 # MODULE 4
 # ****************
-print("**** MAKING PROBABILITY MAPS ****")
-#makedir(predict)
-#os.system("sh ~/SCNN/experiments/test.sh")
+if (args.scnn):
+	print("**** MAKING PROBABILITY MAPS ****")
+	makedir(predict)
+	os.system("sh ~/SCNN/experiments/test.sh")
+else:
+	print("**** BYPASSED: SCNN PROBABILITY MAPS ****")
 
 
 # ****************
@@ -139,10 +150,13 @@ with cd("~/SCNN/seg_label_generate"):
 # ****************
 # MODULE 8
 # ****************
-print("**** MAKING ALL VIDEOS ****")
-makedir(path2vid)
-os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/prob.mp4".format(path2prob, path2vid))
-os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/curve.mp4".format(path2curves, path2vid))
+if (args.video):
+	print("**** MAKING ALL VIDEOS ****")
+	makedir(path2vid)
+	os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/prob.mp4".format(path2prob, path2vid))
+	os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/curve.mp4".format(path2curves, path2vid))
+else:
+	print("**** BYPASSED: VIDEO GENERATION ****")
 
 
 # ****************
