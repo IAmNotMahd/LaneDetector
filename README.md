@@ -10,8 +10,9 @@ LaneDetector, at its core, is Spatial Convolutional Neural Network (SCNN) develo
 
 ### Future Improvements
 - Extend to 8 lanes
-- Detect type of lane marking as well (doible yellow line, single white line etc.)
+- Detect type of lane marking as well (double yellow line, single white line etc.)
 - Propagate information between frames
+- Create docker container for SCNN
 - Train SCNN more on swarm images
 
 ### Requirements
@@ -31,7 +32,14 @@ Run install.sh with the required flags that you need
 
 		c. "-w" to download the weigths file from S3
 
-		d. "-c" to clean up the custom code and replace with original SCNN files
-		
+		d. "-c" to clean up the custom code and replace with original SCNN files, reverting all changes made to SCNN
+
 install.sh copies custom scripts from the Backup folder into their correct directories
 
+### Directory Structure
+
+### CLI Usage
+image and video
+
+### Examples
+images and json and code similar to carmera darknet setup stuffz
