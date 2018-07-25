@@ -41,6 +41,7 @@ install.sh copies custom scripts from the Backup folder into their correct direc
 output directory structure, SCNN directory structure, high-level directory structure
 
 ### CLI Usage
+Currently, CLI usage is limited to prepending the command with "python" since I am still developing the executable.
 image and video
 
 ### Examples
