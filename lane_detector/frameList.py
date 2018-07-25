@@ -53,28 +53,6 @@ class SCNN:
 			os.chdir(prevdir)
 
 
-	# Parse arguments and generate flags to bypass time-extensive code blocks
-	def parse(self):
-		pass
-		'''parser = argparse.ArgumentParser()
-		parser.add_argument("source", help = "Path to video or image directory")
-		parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
-		parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
-		args = parser.parse_args()
-
-		source = args.source
-		#source = "data/example-swarm-data/culane data"
-		#source = "data/example-swarm-data/swarm-data.mp4"
-		base = "/".join(source.split("/")[:-1]) + "/"
-		predict = base + "predicts/"
-		destination = base + "Spliced"
-		path2prob = base + "Prob"
-		path2predict = predict + destination[5:] + "/"
-		path2vid = base + "Videos"
-		path2curves = base + "Curves"
-		numImages = 1001
-'''
-
 	# Check whether input is video or image
 	def vidOrImg(self):
 		global videoFlag
@@ -202,7 +180,7 @@ class SCNN:
 			print("**** BYPASSED: VIDEO GENERATION ****")
 
 
-# Read "[frame no.].exist.txt" to check how many lanes there are
+	# Read "[frame no.].exist.txt" to check how many lanes there are
 	def checkLanes(self):
 		print("**** FINDING NUMBER OF LANES ****")
 		global framesSorted
