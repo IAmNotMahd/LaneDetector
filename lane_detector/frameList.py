@@ -269,7 +269,6 @@ class SCNN:
 
 	# Run the whole pipeline
 	def runAll(self):
-		self.parse()
 		self.vidOrImg()
 		self.splice()
 		self.makeTest()
