@@ -16,15 +16,13 @@ frameLanes = {}
 
 class SCNN:
 
-	def __init__(self):
-		parser = argparse.ArgumentParser()
-		parser.add_argument("source", help = "Path to video or image directory")
-		parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
-		parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
-		parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed)", action = "store_true", default = False)
-		self.args = parser.parse_args()
+	def __init__(self, **kwargs):
+		self.source = kwargs['source']
+		self.environ = kwargs['environ']
+		self.scnn = kwargs['scnn']
+		self.video = kwargs['video']
+		self.debug = kwargs['debug']
 
-		self.source = self.args.source
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
@@ -32,6 +30,16 @@ class SCNN:
 		self.path2predict = self.predict + self.destination[5:] + "/"
 		self.path2vid = self.base + "Videos"
 		self.path2curves = self.base + "Curves"
+
+
+	# optional method to check for commandline arguments and flags
+	def parse(self):
+		parser = argparse.ArgumentParser()
+		parser.add_argument("source", help = "Path to video or image directory")
+		parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
+		parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
+		parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed)", action = "store_true", default = False)
+		args = parser.parse_args()
 
 
 	# check for existence of the folder first to prevent error generation
@@ -104,10 +112,10 @@ class SCNN:
 	# Simply, run the SCNN testing script to generate a probability map for each lane per frame (4 maps per frame). The probability
 	# maps are stored in the "predicts/" folder
 	def probMaps(self):
-		if (self.args.scnn):
+		if (self.scnn):
 			print("**** MAKING PROBABILITY MAPS ****")
 			self.makedir(self.predict)
-			if (self.args.debug):
+			if (self.debug):
 				os.system("sh ~/SCNN/experiments/test.sh")
 			else:
 				os.system("sh ~/SCNN/experiments/test.sh >/dev/null")
@@ -148,7 +156,7 @@ class SCNN:
 	def laneCoord(self):
 		print("**** MAKING LANE COORDINATES ****")
 		with self.cd("~/SCNN/tools/prob2lines"):
-			if (self.args.debug):
+			if (self.debug):
 				os.system("matlab -nodisplay -r \"main;exit\"")
 			else:
 				os.system("matlab -nodisplay -r \"main;exit\" >/dev/null")
@@ -161,7 +169,7 @@ class SCNN:
 		self.makedir(self.path2curves)
 		with self.cd("~/SCNN/seg_label_generate"):
 			os.system("make clean")
-			if (self.args.debug):
+			if (self.debug):
 				os.system("make")
 				os.system("sh labelGen.sh")
 			else:
@@ -171,7 +179,7 @@ class SCNN:
 
 	# Use ffmpeg to generate videos using given key frames with lane curves
 	def genVideo(self):
-		if (self.args.video):
+		if (self.video):
 			print("**** MAKING ALL VIDEOS ****")
 			self.makedir(self.path2vid)
 			os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/prob.mp4".format(self.path2prob, self.path2vid))
@@ -283,5 +291,12 @@ class SCNN:
 		self.json()
 
 if __name__ == "__main__":
-	scnnTest =  SCNN()
+	parser = argparse.ArgumentParser()
+	parser.add_argument("source", help = "Path to video or image directory")
+	parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
+	parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
+	parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed)", action = "store_true", default = False)
+	args = vars(parser.parse_args())
+
+	scnnTest =  SCNN(args)
 	scnnTest.runAll()
