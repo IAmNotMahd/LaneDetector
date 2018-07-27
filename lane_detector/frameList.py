@@ -22,7 +22,10 @@ class SCNN:
 		self.scnn = kwargs['scnn']
 		self.video = kwargs['video']
 		self.debug = kwargs['debug']
-
+		if (self.environ == True):
+			self.scnn = os.getenv("SCNN_SCNN")
+			self.video = os.getenv("SCNN_VIDEO")
+			self.debug = os.getenv("SCNN_DEBUG")
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
@@ -273,6 +276,7 @@ class SCNN:
 			conf = frameLanes[frame][2]
 			data.append({"frame": frame, "lanes_count": count, "current_lane": lane, "confidence": conf})
 		json.dump(data, jsonFile, indent=4)
+		return json.dumps(data, indent=4)
 		jsonFile.close()
 
 	# Run the whole pipeline
@@ -288,15 +292,16 @@ class SCNN:
 		self.checkLanes()
 		self.checkCurrentLane()
 		self.conf()
-		self.json()
+		return self.json()
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
 	parser.add_argument("source", help = "Path to video or image directory")
+	parser.add_argument("-e", "--environ", help = "USE Environment Variables instead", action = "store_true", default = False)
 	parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
 	parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
 	parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed)", action = "store_true", default = False)
 	args = vars(parser.parse_args())
 
-	scnnTest =  SCNN(args)
+	scnnTest =  SCNN(**args)
 	scnnTest.runAll()
