@@ -22,10 +22,12 @@ class SCNN:
 		self.scnn = kwargs['scnn']
 		self.video = kwargs['video']
 		self.debug = kwargs['debug']
+		self.clean = kwargs['clean']
 		if (self.environ == True):
 			self.scnn = os.getenv("SCNN_SCNN")
 			self.video = os.getenv("SCNN_VIDEO")
 			self.debug = os.getenv("SCNN_DEBUG")
+			self.clean = os.getenv("SCNN_CLEAN")
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
@@ -279,6 +281,13 @@ class SCNN:
 		return json.dumps(data, indent=4)
 		jsonFile.close()
 
+
+	# Clean all temporary files if relevant flag passes
+	def cleanAll(self):
+		if (self.clean == True):
+			print("**** CLEANING TEMPORARY FILES AND FOLDERS")
+			
+
 	# Run the whole pipeline
 	def runAll(self):
 		self.vidOrImg()
@@ -292,7 +301,10 @@ class SCNN:
 		self.checkLanes()
 		self.checkCurrentLane()
 		self.conf()
-		return self.json()
+		ret = self.json()
+		self.cleanAll()
+		return ret
+
 
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser()
@@ -301,7 +313,8 @@ if __name__ == "__main__":
 	parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
 	parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
 	parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed)", action = "store_true", default = False)
+	parser.add_argument("-c", "--clean", help = "REMOVE all generated folders and files", action = "store_true", default = False)
 	args = vars(parser.parse_args())
 
-	scnnTest =  SCNN(**args)
+	scnnTest = SCNN(**args)
 	scnnTest.runAll()
