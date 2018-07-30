@@ -121,11 +121,11 @@ class SCNN:
 		if (self.scnn):
 			print("**** MAKING PROBABILITY MAPS ****")
 			self.makedir(self.predict)
-			model = "-model experiments/pretrained/vgg_SCNN_DULR_w9.t7 "
+			model = "-model experiments/pretrained/.t7 "
 			data = "-data ./data "
 			val = "-val " + self.base + "test.txt "
 			save = "-save " + self.predict + " "
-			dataset = "-dataset laneTest "
+			dataset = "-dataset laneaaaest "
 			shareGradInput = "-shareGradInput true "
 			nThreads = "-nThreads 2 "
 			nGPU = "-nGPU 1 "
@@ -307,7 +307,6 @@ class SCNN:
 		if (self.clean == True):
 			print("**** CLEANING TEMPORARY FILES AND FOLDERS ****")
 			
-
 
 	# Run the whole pipeline
 	def runAll(self):

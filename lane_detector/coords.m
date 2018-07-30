@@ -26,6 +26,8 @@ for i=1:num
         fprintf('Processing the %d th image...\n', i);
     end
     imname = list{i};
+    img = imread(strcat(data, imname));
+    [y,x,z] = size(img);
     % imname
     % imname(28:end-3)
     existPath = strcat(probRoot, '/', num2str(i), '.exist.txt');
@@ -51,6 +53,7 @@ for i=1:num
                 for m=1:pts
                     if coordinates(j,m)>0
                         coordinates(j,m)
+                       % plot(uint16(coordinates(j,m)*x/800),y-(m-1)*20,strcat('.',color(j)),'markersize',30);
                         plot(uint16(coordinates(j,m)*1640/800),590-(m-1)*20,strcat('.',color(j)),'markersize',30);
                     end
                 end
@@ -63,7 +66,7 @@ for i=1:num
         figure(2)
         imshow(probMaps)
         pause();
-        % saveas(fig, strcat('/home/paperspace/SCNN/data/example-swarm-data/matlabOutput/', num2str(i), '.jpg'));
+        saveas(fig, strcat('/home/paperspace/SCNN/data/example-swarm-data/matlabOutput/', num2str(i), '.jpg'));
     else
         save_name = strcat(output, '/', num2str(i), '.lines.txt');
         position = strfind(save_name,'/');
@@ -79,6 +82,7 @@ for i=1:num
             if exist{j}=='1' && sum(coordinates(j,:)>0)>1
                 for m=1:pts
                     if coordinates(j,m)>0
+                        % fprintf(fp, '%d %d ', uint16(coordinates(j,m)*x/800)-1, uint16(y-(m-1)*20)-1);
                         fprintf(fp, '%d %d ', uint16(coordinates(j,m)*1640/800)-1, uint16(590-(m-1)*20)-1);
                     end
                 end
