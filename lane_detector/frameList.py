@@ -174,9 +174,11 @@ class SCNN:
 		print("**** MAKING LANE COORDINATES ****")
 		with self.cd("~/SCNN/tools/prob2lines"):
 			if (self.debug):
-				os.system("matlab -nodisplay -r \"main;exit\"")
+				os.system("matlab -nodisplay -r \"try coords(2); catch; end; quit\"")
+				#os.system("matlab -nodisplay -r \"main;exit\"")
 			else:
-				os.system("matlab -nodisplay -r \"main;exit\" >/dev/null")
+				os.system("matlab -nodisplay -r \"try coords(2); catch; end; quit\" >/dev/null")
+				#os.system("matlab -nodisplay -r \"main;exit\" >/dev/null")
 
 
 	# Run seg_label_generate to create lane curves by using a cubic spline. The curves are drawn on top of the input image and 

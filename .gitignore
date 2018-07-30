@@ -19,4 +19,4 @@ doc/**/*.txt
 /*.egg-info
 # temp files
 /SCNN/gen
-/SCNN/data/
+/SCNN/data

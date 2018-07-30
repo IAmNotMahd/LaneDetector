@@ -1,6 +1,5 @@
- %% Code to generate lane coordinates from probablity maps.
-clc; clear; close all;
-
+%% Code to generate lane coordinates from probablity maps.
+function coords(a)
 % Experiment name
 exp = 'vgg_SCNN_DULR_w9';
 % Data root
@@ -83,4 +82,5 @@ for i=1:num
         end
         fclose(fp);
     end
+end
 end
