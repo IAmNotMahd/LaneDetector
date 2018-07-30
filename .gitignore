@@ -11,12 +11,12 @@ build/
 doc/*.txt
 # ignore all .txt files in the doc/ directory
 doc/**/*.txt
-
-# Compiled python modules.
+# compiled python modules.
 *.pyc
-
-# Setuptools distribution folder.
+# setuptools distribution folder.
 /dist/
-
-# Python egg metadata, regenerated from source files by setuptools.
+# python egg metadata, regenerated from source files by setuptools.
 /*.egg-info
+# temp files
+/SCNN/gen
+/SCNN/data/

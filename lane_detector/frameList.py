@@ -120,10 +120,22 @@ class SCNN:
 		if (self.scnn):
 			print("**** MAKING PROBABILITY MAPS ****")
 			self.makedir(self.predict)
+			model = "-model experiments/pretrained/vgg_SCNN_DULR_w9.t7 "
+			data = "-data ./data "
+			val = "-val " + self.base + "test.txt "
+			save = "-save " + self.predict + " "
+			dataset = "-dataset laneTest "
+			shareGradInput = "-shareGradInput true "
+			nThreads = "-nThreads 2 "
+			nGPU = "-nGPU 1 "
+			batchSize = "-batchSize 1 "
+			smooth = "-smooth true "
 			if (self.debug):
-				os.system("sh ~/SCNN/experiments/test.sh")
+				os.system("rm ./gen/laneTest.t7")
+				os.system("th testLane.lua " + model + data + val + save + dataset+ shareGradInput + nThreads + nGPU + batchSize + smooth)
 			else:
-				os.system("sh ~/SCNN/experiments/test.sh >/dev/null")
+				os.system("rm ./gen/laneTest.t7 >/dev/null")
+				os.system("th testLane.lua " + model + data + val + save + dataset+ shareGradInput + nThreads + nGPU + batchSize + smooth + ">/dev/null")
 		else:
 			print("**** BYPASSED: SCNN PROBABILITY MAPS ****")
 
@@ -287,6 +299,7 @@ class SCNN:
 		if (self.clean == True):
 			print("**** CLEANING TEMPORARY FILES AND FOLDERS")
 			
+
 
 	# Run the whole pipeline
 	def runAll(self):
