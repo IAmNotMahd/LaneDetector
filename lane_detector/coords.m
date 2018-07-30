@@ -1,9 +1,9 @@
 %% Code to generate lane coordinates from probablity maps.
 function coords(exp1, data1, probRoot1, output1)
-exp = exp1
-data = data1
-probRoot = probRoot1
-output = output1
+exp = exp1;
+data = data1;
+probRoot = probRoot1;
+output = output1;
 % Experiment name
 % exp = 'vgg_SCNN_DULR_w9';
 % Data root
@@ -13,7 +13,8 @@ output = output1
 % Directory to save fitted lanes.
 % output = '../../data/example-swarm-data/Spliced';
 
-testList = strcat(data, '/example-swarm-data/test.txt');
+testList = strcat(output(1:end-7), 'test.txt')
+
 show = false;  % set to true to visualize
 
 list = textread(testList, '%s');
@@ -27,12 +28,12 @@ for i=1:num
     imname = list{i};
     % imname
     % imname(28:end-3)
-    existPath = strcat(probRoot, imname(28:end-3), 'exist.txt');
+    existPath = strcat(probRoot, '/', num2str(i), '.exist.txt');
     exist = textread(existPath, '%s');
     coordinates = zeros(4, pts);
     for j=1:4
         if exist{j}=='1'
-            scorePath = strcat(probRoot, imname(28:end-4), '_', num2str(j), '_avg.png');
+            scorePath = strcat(probRoot, '/', num2str(i), '_', num2str(j), '_avg.png');
             scoreMap = imread(scorePath);
             coordinate = getLane(scoreMap);
             coordinates(j,:) = coordinate;
@@ -54,7 +55,7 @@ for i=1:num
                     end
                 end
             end
-            probPath = strcat(probRoot, imname(28:end-4), '_', num2str(j), '_avg.png');
+            probPath = strcat(probRoot, '/', num2str(i), '_', num2str(j), '_avg.png');
             probMap = imread(probPath);
             probMaps(:,:,mod(j,3)+1) = probMaps(:,:,mod(j,3)+1) + probMap;
         end
@@ -64,7 +65,7 @@ for i=1:num
         pause();
         % saveas(fig, strcat('/home/paperspace/SCNN/data/example-swarm-data/matlabOutput/', num2str(i), '.jpg'));
     else
-        save_name = strcat(output, imname(28:end-3), 'lines.txt');
+        save_name = strcat(output, '/', num2str(i), '.lines.txt');
         position = strfind(save_name,'/');
         prefix = '';
         if(~isempty(position))

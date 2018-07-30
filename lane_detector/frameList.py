@@ -13,6 +13,7 @@ from numpy import *
 videoFlag = True
 framesSorted = []
 frameLanes = {}
+numImages = 10001
 
 class SCNN:
 
@@ -29,7 +30,6 @@ class SCNN:
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
-		print(self.base)
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
 		self.path2prob = self.base + "Prob"
@@ -87,7 +87,7 @@ class SCNN:
 		if (videoFlag):
 			print("**** SPLICING VIDEO INTO FRAMES ****")
 			mp4File = open(self.source, 'r')
-			os.system("ffmpeg -loglevel panic -i {0} {1}/%1d.jpg".format(mp4File.name, self.destination))
+			os.system("ffmpeg -loglevel panic -i {0} -r 0.1 {1}/%1d.jpg".format(mp4File.name, self.destination))
 			mp4File.close()
 		else:
 			print("**** CREATING IMAGE DIRECTORY ****")
@@ -305,7 +305,7 @@ class SCNN:
 	# Clean all temporary files if relevant flag passes
 	def cleanAll(self):
 		if (self.clean == True):
-			print("**** CLEANING TEMPORARY FILES AND FOLDERS")
+			print("**** CLEANING TEMPORARY FILES AND FOLDERS ****")
 			
 
 
@@ -317,7 +317,6 @@ class SCNN:
 		self.probMaps()
 		self.avgProbMaps()
 		self.laneCoord()
-		sys.exit()
 		self.laneCurve()
 		self.genVideo()
 		self.checkLanes()
