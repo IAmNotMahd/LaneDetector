@@ -30,6 +30,7 @@ class SCNN:
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
+		print(self.base)
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
 		self.path2prob = self.base + "Prob"
@@ -121,11 +122,11 @@ class SCNN:
 		if (self.scnn):
 			print("**** MAKING PROBABILITY MAPS ****")
 			self.makedir(self.predict)
-			model = "-model experiments/pretrained/.t7 "
+			model = "-model experiments/pretrained/vgg_SCNN_DULR_w9.t7 "
 			data = "-data ./data "
 			val = "-val " + self.base + "test.txt "
 			save = "-save " + self.predict + " "
-			dataset = "-dataset laneaaaest "
+			dataset = "-dataset laneTest "
 			shareGradInput = "-shareGradInput true "
 			nThreads = "-nThreads 2 "
 			nGPU = "-nGPU 1 "
@@ -189,17 +190,32 @@ class SCNN:
 
 	# Run seg_label_generate to create lane curves by using a cubic spline. The curves are drawn on top of the input image and 
 	# stored in a separate folder called "Curves/"
+	# flag details are: 
+	# 	-l: image list file to process
+	# 	-m: set mode to "imgLabel" or "trainList"
+	# 	-d: dataset path
+	# 	-w: the width of lane labels generated
+	# 	-o: path to save the generated labels
+	# 	-s: visualize annotation, remove this option to generate labels
 	def laneCurve(self):
 		print("**** MAKING LANE CURVES ****")
 		self.makedir(self.path2curves)
+		path2SCNN = "../"
+
+		listFile = "-l " + path2SCNN + self.base + "test.txt "
+		mode = "-m " + "imgLabel "
+		data = "-d " + "INSERT INSERT INSERT"
+		width = "-w " + "16 "
+		output = "-o " + "INSERT INSERT INSERT"
+		vis = "-s "
 		with self.cd("~/SCNN/seg_label_generate"):
 			os.system("make clean")
 			if (self.debug):
 				os.system("make")
-				os.system("sh labelGen.sh")
+				os.system("./seg_label_generate " + listFile + mode + data + width + output + vis)
 			else:
 				os.system("make >/dev/null")
-				os.system("sh labelGen.sh >/dev/null")
+				os.system("./seg_label_generate " + listFile + mode + data + width + output + vis >/dev/null)
 
 
 	# Use ffmpeg to generate videos using given key frames with lane curves
@@ -313,6 +329,7 @@ class SCNN:
 		self.vidOrImg()
 		self.splice()
 		self.makeTest()
+		sys.exit()
 		self.probMaps()
 		self.avgProbMaps()
 		self.laneCoord()
