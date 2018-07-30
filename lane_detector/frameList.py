@@ -29,6 +29,7 @@ class SCNN:
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
+		print(self.base)
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
 		self.path2prob = self.base + "Prob"
@@ -173,11 +174,16 @@ class SCNN:
 	def laneCoord(self):
 		print("**** MAKING LANE COORDINATES ****")
 		with self.cd("~/SCNN/tools/prob2lines"):
+			path2SCNN = "../../"
+			exp1 = "vgg_SCNN_DULR_w9"
+			data1 = path2SCNN + "data"
+			probRoot1 = path2SCNN + self.predict + self.destination[5:]
+			output1 = path2SCNN + self.destination
+			args = "\'" + exp1 + "\', \'" + data1 + "\', \'" + probRoot1 + "\', \'" + output1 + "\'"
 			if (self.debug):
-				os.system("matlab -nodisplay -r \"try coords(2); catch; end; quit\"")
-				#os.system("matlab -nodisplay -r \"main;exit\"")
+				os.system("matlab -nodisplay -r \"try coords(" + args + "); catch; end; quit\"")
 			else:
-				os.system("matlab -nodisplay -r \"try coords(2); catch; end; quit\" >/dev/null")
+				os.system("matlab -nodisplay -r \"try coords(" + args + "); catch; end; quit\" >/dev/null")
 				#os.system("matlab -nodisplay -r \"main;exit\" >/dev/null")
 
 
@@ -311,6 +317,7 @@ class SCNN:
 		self.probMaps()
 		self.avgProbMaps()
 		self.laneCoord()
+		sys.exit()
 		self.laneCurve()
 		self.genVideo()
 		self.checkLanes()
