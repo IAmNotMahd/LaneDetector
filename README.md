@@ -51,8 +51,9 @@ install.sh copies custom scripts from the Backup folder into their correct direc
 ```shell
 $ python3 setup.py install
 ```
+5. Download the pre-trained weights file either manually or by running `sh install.sh -w`
 
-5. Configuration: you can configure the module either by pre setting environment variables, or by passing the configuration as arguments to the constructor. Use the `-h` flag for additional information
+6. Configuration: you can configure the module either by pre setting environment variables, or by passing the configuration as arguments to the constructor. Use the `-h` flag for additional information
 ```
 SCNN_SCNN if enabled, will run SCNN probability map generation
 SCNN_VIDEO if enabled, will run video generation (prototype)
