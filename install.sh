@@ -56,24 +56,6 @@ if echo $* | grep -e "-w" -q; then
 	cd ..
 	cd ..
 fi
-if echo $* | grep -e "-c" -q; then
-	echo "Cleaning up custom files"
-	rm SCNN/data/frameList.py
-	rm SCNN/seg_label_generate/labelGen.sh
-	rm SCNN/seg_label_generate/src/main.cpp
-	rm SCNN/tools/prob2lines/main.m
-	rm SCNN/seg_label_generate/src/seg_label_generator.cpp
-	rm SCNN/seg_label_generate/include/seg_label_generator.hpp
-	rm SCNN/experiments/test.sh
-	rm SCNN/testLane.lua
-
-	cp Original/labelGen.sh SCNN/seg_label_generate/
-	cp Original/main.cpp SCNN/seg_label_generate/src/
-	cp Original/main.m SCNN/tools/prob2lines/
-	cp Original/seg_label_generator.cpp SCNN/seg_label_generate/src/
-	cp Original/seg_label_generator.hpp SCNN/seg_label_generate/include/
-	cp Original/test.sh SCNN/experiments/
-	cp Original/testLane.lua SCNN/
 # Replacing files with custom files
 cp lane_detector/frameList.py SCNN/data/
 cp lane_detector/labelGen.sh SCNN/seg_label_generate/
