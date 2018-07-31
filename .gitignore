@@ -19,5 +19,6 @@ doc/**/*.txt
 /*.egg-info
 # temp files
 /SCNN/gen
-/SCNN/data
-/SCNN/*
+/SCNN/seg_label_generate/*
+/SCNN/tools/*
+/SCNN/data/*

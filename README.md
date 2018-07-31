@@ -43,7 +43,6 @@ Use the appropriate flags that you need
 
 		c. "-w" to download the weigths file from S3
 
-		d. "-c" to clean up the custom code and replace with original SCNN files, reverting all changes made to SCNN
 install.sh copies custom scripts from the Backup folder into their correct directories
 
 3. Place images/videos to be tested on in the `LaneDetector/SCNN/data/` folder
