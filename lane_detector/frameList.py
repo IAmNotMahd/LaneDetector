@@ -18,7 +18,13 @@ numImages = 10001
 class SCNN:
 
 	def __init__(self, **kwargs):
+		currentDir = os.path.dirname(__file__)
+		path2SCNN = "/".join(currentDir.split("/")[:-1]) + "/" + "SCNN/"	
+		os.chdir(path2SCNN)
+
 		self.source = kwargs['source']
+		self.source = "".join(self.source.rsplit(path2SCNN))
+		print(self.source)
 		self.environ = kwargs['environ']
 		self.scnn = kwargs['scnn']
 		self.video = kwargs['video']
@@ -29,7 +35,7 @@ class SCNN:
 			self.video = os.getenv("SCNN_VIDEO")
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
-		self.base = "/".join(self.source.split("/")[:-1]) + "/"
+		self.base = "/".join(self.source.split("/")[:-1]) + "/"		
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
 		self.path2prob = self.base + "Prob"
@@ -184,7 +190,6 @@ class SCNN:
 				os.system("matlab -nodisplay -r \"try coords(" + args + "); catch; end; quit\"")
 			else:
 				os.system("matlab -nodisplay -r \"try coords(" + args + "); catch; end; quit\" >/dev/null")
-				#os.system("matlab -nodisplay -r \"main;exit\" >/dev/null")
 
 
 	# Run seg_label_generate to create lane curves by using a cubic spline. The curves are drawn on top of the input image and 
