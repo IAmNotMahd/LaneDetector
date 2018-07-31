@@ -284,6 +284,7 @@ void SegLabelGenerator::showLabels(const string &im_name, int width, int wait_ti
 	string image_path = im_name;
 	int index = image_path.find_last_of('/');
 	string output_image_path = image_path.substr(0,index - 7) + "Curves" + "/" + image_path.substr(index + 1);
+	//string output_image_path = "/home/paperspace/SCNN/data/CULane/labelGenOutput/" + image_path.substr(index + 1);
 	Mat im = imread(im_name, 1);
 	Mat im2 = imread(im_name, 1);
 	const Scalar color_y_seq = Scalar(70, 120, 60);
