@@ -25,7 +25,15 @@ LaneDetector, at its core, is Spatial Convolutional Neural Network (SCNN) develo
 6. Matlab R2014a or later
 
 ### Installation
-Run install.sh with the required flags that you need
+1. Clone this repository
+```shell
+$ git clone https://github.com/carmeraco/LaneDetector.git
+```
+2. Run install.sh
+```shell
+$ sh install.sh
+```
+Use the appropriate flags that you need
 
 		a. "-t" to install torch
 
@@ -34,8 +42,8 @@ Run install.sh with the required flags that you need
 		c. "-w" to download the weigths file from S3
 
 		d. "-c" to clean up the custom code and replace with original SCNN files, reverting all changes made to SCNN
-
 install.sh copies custom scripts from the Backup folder into their correct directories
+
 
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure
