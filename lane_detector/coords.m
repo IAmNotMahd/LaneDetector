@@ -13,7 +13,7 @@ output = output1;
 % Directory to save fitted lanes.
 % output = '../../data/example-swarm-data/Spliced';
 
-testList = strcat(output(1:end-7), 'test.txt')
+testList = strcat(output(1:end-7), 'test.txt');
 
 show = false;  % set to true to visualize
 

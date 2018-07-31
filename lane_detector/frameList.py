@@ -30,7 +30,6 @@ class SCNN:
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
-		print(self.base)
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
 		self.path2prob = self.base + "Prob"
@@ -204,9 +203,9 @@ class SCNN:
 
 		listFile = "-l " + path2SCNN + self.base + "test.txt "
 		mode = "-m " + "imgLabel "
-		data = "-d " + "INSERT INSERT INSERT"
+		data = "-d " + path2SCNN + "data "
 		width = "-w " + "16 "
-		output = "-o " + "INSERT INSERT INSERT"
+		output = "-o " + path2SCNN + "data "
 		vis = "-s "
 		with self.cd("~/SCNN/seg_label_generate"):
 			os.system("make clean")
@@ -215,7 +214,7 @@ class SCNN:
 				os.system("./seg_label_generate " + listFile + mode + data + width + output + vis)
 			else:
 				os.system("make >/dev/null")
-				os.system("./seg_label_generate " + listFile + mode + data + width + output + vis >/dev/null)
+				os.system("./seg_label_generate " + listFile + mode + data + width + output + vis + ">/dev/null")
 
 
 	# Use ffmpeg to generate videos using given key frames with lane curves
@@ -329,7 +328,6 @@ class SCNN:
 		self.vidOrImg()
 		self.splice()
 		self.makeTest()
-		sys.exit()
 		self.probMaps()
 		self.avgProbMaps()
 		self.laneCoord()
