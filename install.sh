@@ -57,7 +57,6 @@ if echo $* | grep -e "-w" -q; then
 	cd ..
 fi
 # Replacing files with custom files
-cp lane_detector/frameList.py SCNN/data/
 cp lane_detector/coords.m SCNN/tools/prob2lines/
 cp lane_detector/seg_label_generator.cpp SCNN/seg_label_generate/src/
 cp lane_detector/seg_label_generator.hpp SCNN/seg_label_generate/include/

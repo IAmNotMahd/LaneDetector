@@ -20,3 +20,4 @@ doc/**/*.txt
 # temp files
 /SCNN/gen
 /SCNN/data
+/SCNN/*

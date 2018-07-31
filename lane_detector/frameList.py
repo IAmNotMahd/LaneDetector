@@ -173,7 +173,7 @@ class SCNN:
 	# Run matlab script to make lane coordinates. The coordinates are stored in "[frame no.].lines.txt" in the "Spliced/" folder
 	def laneCoord(self):
 		print("**** MAKING LANE COORDINATES ****")
-		with self.cd("~/SCNN/tools/prob2lines"):
+		with self.cd("./tools/prob2lines"):
 			path2SCNN = "../../"
 			exp1 = "vgg_SCNN_DULR_w9"
 			data1 = path2SCNN + "data"
@@ -207,7 +207,7 @@ class SCNN:
 		width = "-w " + "16 "
 		output = "-o " + path2SCNN + "data "
 		vis = "-s "
-		with self.cd("~/SCNN/seg_label_generate"):
+		with self.cd("./seg_label_generate"):
 			os.system("make clean")
 			if (self.debug):
 				os.system("make")
