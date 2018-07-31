@@ -41,6 +41,7 @@ class SCNN:
 		self.path2predict = self.predict + self.destination[5:] + "/"
 		self.path2vid = self.base + "Videos"
 		self.path2curves = self.base + "Curves"
+		# scaled_image = orig_image.resize((out_width, out_height), Image.NEAREST)
 
 
 	# optional method to check for commandline arguments and flags

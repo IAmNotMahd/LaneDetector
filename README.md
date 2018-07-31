@@ -60,6 +60,67 @@ SCNN_VIDEO if enabled, will run video generation (prototype)
 SCNN_DEBUG if enabled, will log the output of all files in the terminal
 SCNN_CLEAN if enabled, will remove all temporary output files (only the json object will remain)
 ```
+
+### Usage
+
+#### API:
+
+#### Example:
+```python
+!/usr/bin/python
+import argparse
+from lane_detector import frameList
+
+parser = argparse.ArgumentParser()
+parser.add_argument("source", help = "Path to video or image directory")
+parser.add_argument("-e", "--environ", help = "USE Environment Variables instead", action = "store_true", default = False)
+parser.add_argument("-s", "--scnn", help = "RUN SCNN probability map generation", action = "store_true", default = False)
+parser.add_argument("-v", "--video", help = "RUN video generation", action = "store_true", default = False)
+parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed)", action = "store_true", default = False)
+parser.add_argument("-c", "--clean", help = "REMOVE all generated folders and files", action = "store_true", default = False)
+args = vars(parser.parse_args())
+
+scnnTest = frameList.SCNN(**args)
+print(scnnTest.runAll())
+```
+The output is stored in `data.json` as well as printed out (if using the above sample). The json file looks like:
+```python
+[
+    {
+        "frame": 1,
+        "lanes_count": 0,
+        "current_lane": 0,
+        "confidence": [
+            "0.0052451747469604",
+            "0.038813650608063",
+            "0.027972972020507",
+            "0.0028216277714819"
+        ]
+    },
+    {
+        "frame": 2,
+        "lanes_count": 0,
+        "current_lane": 0,
+        "confidence": [
+            "0.0025243507698178",
+            "0.038077626377344",
+            "0.030799916014075",
+            "0.0047715208493173"
+        ]
+    },
+    {
+        "frame": 6,
+        "lanes_count": 4,
+        "current_lane": 2,
+        "confidence": [
+            "0.98644626140594",
+            "0.99989569187164",
+            "0.99981862306595",
+            "0.99161434173584"
+        ]
+    },
+    ....
+```
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure
 
