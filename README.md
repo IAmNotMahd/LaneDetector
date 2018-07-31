@@ -29,8 +29,10 @@ LaneDetector, at its core, is Spatial Convolutional Neural Network (SCNN) develo
 ```shell
 $ git clone https://github.com/carmeraco/LaneDetector.git
 ```
+
 2. Run install.sh
 ```shell
+$ cd LaneDetector
 $ sh install.sh
 ```
 Use the appropriate flags that you need
@@ -44,7 +46,20 @@ Use the appropriate flags that you need
 		d. "-c" to clean up the custom code and replace with original SCNN files, reverting all changes made to SCNN
 install.sh copies custom scripts from the Backup folder into their correct directories
 
+3. Place images/videos to be tested on in the `LaneDetector/SCNN/data/` folder
 
+4. Install the lane_detector module
+```shell
+$ python3 setup.py install
+```
+
+5. Configuration: you can configure the module either by pre setting environment variables, or by passing the configuration as arguments to the constructor. Use the `-h` flag for additional information
+```
+SCNN_SCNN if enabled, will run SCNN probability map generation
+SCNN_VIDEO if enabled, will run video generation (prototype)
+SCNN_DEBUG if enabled, will log the output of all files in the terminal
+SCNN_CLEAN if enabled, will remove all temporary output files (only the json object will remain)
+```
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure
 
