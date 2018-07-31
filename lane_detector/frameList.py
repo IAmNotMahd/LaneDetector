@@ -24,7 +24,6 @@ class SCNN:
 
 		self.source = kwargs['source']
 		self.source = "".join(self.source.rsplit(path2SCNN))
-		print(self.source)
 		self.environ = kwargs['environ']
 		self.scnn = kwargs['scnn']
 		self.video = kwargs['video']
@@ -35,7 +34,7 @@ class SCNN:
 			self.video = os.getenv("SCNN_VIDEO")
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
-		self.base = "/".join(self.source.split("/")[:-1]) + "/"		
+		self.base = "/".join(self.source.split("/")[:-1]) + "/"
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
 		self.path2prob = self.base + "Prob"
