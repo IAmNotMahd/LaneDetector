@@ -7,7 +7,7 @@ install_requires = []
 
 setup(name='lane_detector',
 	version='0.1',
-	description="A python wrapper for CARMERA's SCNN implementation for traffic lane deection",
+	description="A python wrapper for CARMERA's SCNN implementation for traffic lane detection",
 	author="Mahd Aamir Khan",
 	author_email='khan-psip@carmera.co',
 	url='https://github.com/carmeraco/LaneDetector',
