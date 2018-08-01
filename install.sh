@@ -61,3 +61,4 @@ cp lane_detector/coords.m SCNN/tools/prob2lines/
 cp lane_detector/seg_label_generator.cpp SCNN/seg_label_generate/src/
 cp lane_detector/seg_label_generator.hpp SCNN/seg_label_generate/include/
 cp lane_detector/testLane.lua SCNN/
+cp lane_detector/Makefile SCNN/seg_label_generate/
