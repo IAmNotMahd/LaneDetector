@@ -40,7 +40,7 @@ class SCNN:
 		self.debug = kwargs['debug']
 		self.clean = kwargs['clean']
 
-		if (self.environ == True):
+		if (self.environ):
 			self.scnn = os.getenv("SCNN_SCNN")
 			self.video = os.getenv("SCNN_VIDEO")
 			self.debug = os.getenv("SCNN_DEBUG")
@@ -320,7 +320,7 @@ class SCNN:
 					coordX_list.append(x_coord)
 					coordY_list.append(y_coord)
 
-					if found_lane == False:
+					if (found_lane == False):
 						if ((x_coord < 700) and (y_coord > 350)):
 							found_lane = True
 							count = count + 1
@@ -368,9 +368,16 @@ class SCNN:
 
 	# Clean all temporary files if relevant flag passes
 	def clean_all(self):
-		if (self.clean == True):
+		if (self.clean):
 			print("**** CLEANING TEMPORARY FILES AND FOLDERS ****")
-			
+			shutil.rmtree(self.path_2_curves)
+			os.remove(self.base + "data.json")
+			shutil.rmtree(self.predict)
+			shutil.rmtree(self.path_2_prob)
+			shutil.rmtree(self.source)
+			shutil.rmtree(self.destination)
+			os.remove(self.base + "test.txt")
+
 
 	# Run the whole pipeline
 	def run_all(self):
