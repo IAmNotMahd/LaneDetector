@@ -56,12 +56,13 @@ $ python3 setup.py install
 SCNN_SCNN if enabled, will run SCNN probability map generation
 SCNN_VIDEO if enabled, will run video generation (prototype)
 SCNN_DEBUG if enabled, will log the output of all files in the terminal
-SCNN_CLEAN if enabled, will remove all temporary output files
+SCNN_CLEAN if enabled, will remove all temporary output files. This uses shutil.rmtree(), be careful :)
 ```
 
 ### Usage
 
 #### API:
+
 `python import_tester.py <ABSOLUTE-path-to-image/video> -flag1 -flag2 `
 
 #### Example:
@@ -134,6 +135,7 @@ test.txt  : The required test.txt file by SCNN
 Videos/   : Probability map video and Curve video
 ```	
 If you pass the `--clean` flag, these files and folders will be removed.
+
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure
 

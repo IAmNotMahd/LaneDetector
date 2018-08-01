@@ -32,6 +32,7 @@ class SCNN:
 			full_file_name = os.path.join(origin, file_name)
 			if (os.path.isfile(full_file_name)):
 				shutil.copy(full_file_name, path_2_source)
+
 		self.source = path_2_source
 		self.environ = kwargs['environ']
 		self.scnn = kwargs['scnn']
@@ -86,12 +87,14 @@ class SCNN:
 	# Check whether input is video or image
 	def vid_or_img(self):
 		global video_flag
+
 		if (self.source[-4:] == ".mp4"):
 			video_flag = True
 			print("**** DETECTED VIDEO FILE ****")
 		else:
 			video_flag = False
 			print("**** DETECTED IMAGE FOLDER ****")
+
 		self.makedir(self.destination)
 
 
@@ -100,20 +103,24 @@ class SCNN:
 	# directory is called "Spliced/"
 	def splice(self):
 		global video_flag
+
 		if (video_flag):
 			print("**** SPLICING VIDEO INTO FRAMES ****")
 			mp4_file = open(self.source, 'r')
 			os.system("ffmpeg -loglevel panic -i {0} -r 0.1 {1}/%1d.jpg".format(mp4_file.name, self.destination))
 			mp4_file.close()
+
 		else:
 			print("**** CREATING IMAGE DIRECTORY ****")
 			for image in os.listdir(self.source):
 				if image.endswith(".jpg"):
 					image_path = self.source + "/" + image
 					shutil.copy(image_path, self.destination)
+
 			frames = os.listdir(self.destination)
 			frames_sorted = sorted(([s.strip('.jpg') for s in frames]), key = int)
 			count = 0
+
 			for frame in frames_sorted:
 				count = count + 1
 				os.rename(self.destination + "/" + frame + ".jpg", self.destination + "/" + str(count) + ".jpg")
@@ -123,11 +130,14 @@ class SCNN:
 	def make_test(self):
 		print("**** MAKING TEST.TXT FILE ****")
 		global frames_sorted
+
 		frames = os.listdir(self.destination)
 		frames_sorted = sorted(([s.strip('.jpg') for s in frames]), key = int)
 		txt = open(self.base + "test.txt", "w+")
+
 		for i in range(len(frames_sorted)):
 			txt.write("/" + self.destination[5:] + "/" + frames_sorted[i] + ".jpg" + "\n")
+
 		txt.close()
 
 
@@ -137,6 +147,7 @@ class SCNN:
 		global frames_sorted
 		out_width = 1640
 		out_height = 590
+
 		for i in range(len(frames_sorted)):
 			orig_image = Image.open(self.destination + "/" + str(i + 1) + ".jpg")
 			scaled_image = orig_image.resize((out_width, out_height), Image.NEAREST)
@@ -149,6 +160,7 @@ class SCNN:
 		if (self.scnn):
 			print("**** MAKING PROBABILITY MAPS ****")
 			self.makedir(self.predict)
+
 			model = "-model experiments/pretrained/model_best_rz.t7 "
 			data = "-data ./data "
 			val = "-val " + self.base + "test.txt "
@@ -159,12 +171,14 @@ class SCNN:
 			n_GPU = "-nGPU 1 "
 			batch_size = "-batchSize 1 "
 			smooth = "-smooth true "
+
 			if (self.debug):
 				os.system("rm ./gen/laneTest.t7")
 				os.system("th testLane.lua " + model + data + val + save + dataset + share_grad_input + n_threads + n_GPU + batch_size + smooth)
 			else:
 				os.system("rm ./gen/laneTest.t7 >/dev/null")
 				os.system("th testLane.lua " + model + data + val + save + dataset + share_grad_input + n_threads + n_GPU + batch_size + smooth + ">/dev/null")
+
 		else:
 			print("**** BYPASSED: SCNN PROBABILITY MAPS ****")
 
@@ -176,17 +190,9 @@ class SCNN:
 		print("**** MAKING AVERAGES FROM PROBABILITY MAP ****")
 		self.makedir(self.path_2_prob)
 		global frames_sorted
+
 		for i in range(len(frames_sorted)):
 			im_name = str(i + 1)
-			'''num = i * 30
-			if (num < 10):
-				im_name = "0000" + str(num)
-			elif (num < 100):
-				im_name = "000" + str(num)
-			elif (num < 1000):
-				im_name = "00" + str(num)
-			else:
-				im_name = "0" + str(num)'''
 			im1_arr = asarray(Image.open(self.path_2_predict + im_name + "_1_avg.png"))
 			im2_arr = asarray(Image.open(self.path_2_predict + im_name + "_2_avg.png"))
 			im3_arr = asarray(Image.open(self.path_2_predict + im_name + "_3_avg.png"))
@@ -201,6 +207,7 @@ class SCNN:
 	# Run matlab script to make lane coordinates. The coordinates are stored in "[frame no.].lines.txt" in the "Spliced/" folder
 	def lane_coord(self):
 		print("**** MAKING LANE COORDINATES ****")
+
 		with self.cd("./tools/prob2lines"):
 			path_2_SCNN = "../../"
 			exp1 = "model_best_rz"
@@ -208,6 +215,7 @@ class SCNN:
 			prob_root1 = path_2_SCNN + self.predict + self.destination[5:]
 			output1 = path_2_SCNN + self.destination
 			args = "\'" + exp1 + "\', \'" + data1 + "\', \'" + prob_root1 + "\', \'" + output1 + "\'"
+
 			if (self.debug):
 				os.system("matlab -nodisplay -r \"try coords(" + args + "); catch; end; quit\"")
 			else:
@@ -226,14 +234,15 @@ class SCNN:
 	def lane_curve(self):
 		print("**** MAKING LANE CURVES ****")
 		self.makedir(self.path_2_curves)
-		path_2_SCNN = "../"
 
+		path_2_SCNN = "../"
 		list_file = "-l " + path_2_SCNN + self.base + "test.txt "
 		mode = "-m " + "imgLabel "
 		data = "-d " + path_2_SCNN + "data "
 		width = "-w " + "16 "
 		output = "-o " + path_2_SCNN + "data "
 		vis = "-s "
+
 		with self.cd("./seg_label_generate"):
 			os.system("make clean")
 			if (self.debug):
@@ -246,6 +255,7 @@ class SCNN:
 
 	# Use ffmpeg to generate videos using given key frames with lane curves
 	def gen_video(self):
+
 		if (self.video):
 			print("**** MAKING ALL VIDEOS ****")
 			self.makedir(self.path_2_vid)
@@ -260,6 +270,7 @@ class SCNN:
 		print("**** FINDING NUMBER OF LANES ****")
 		global frames_sorted
 		global frame_lanes
+
 		for i in range(len(frames_sorted)):
 			frame = str(i + 1)
 			final_list = []
@@ -268,9 +279,11 @@ class SCNN:
 			exist_read = exist_txt.read().replace("\n", "")
 			exist_list = exist_read.split(" ")[:-1]
 			lane_count = 0
+
 			for j in exist_list:
 				if j == '1':
 					lane_count = lane_count + 1
+
 			final_list.append(lane_count)
 			frame_lanes[int(frame)] = final_list
 			exist_txt.close()
@@ -286,27 +299,32 @@ class SCNN:
 		print("**** FINDING CURRENT LANE ****")
 		global frames_sorted
 		global frame_lanes
+
 		for i in range(len(frames_sorted)):
 			frame = str(i + 1)
 			count = 0
 			coord_name = self.destination + "/" + frame + ".lines.txt"
 			coord_txt = open(coord_name, "r")
 			coord_read = coord_txt.readlines()
+
 			for coord_line in coord_read:
 				coord_line = coord_line.strip("\n")
 				coord_list = coord_line.split(" ")
 				coordX_list = []
 				coordY_list = []
 				found_lane = False
+
 				for k in range(0, len(coord_list) - 1, 2):
 					x_coord = int(coord_list[k])
 					y_coord = int(coord_list[k + 1])
 					coordX_list.append(x_coord)
 					coordY_list.append(y_coord)
+
 					if found_lane == False:
 						if ((x_coord < 700) and (y_coord > 350)):
 							found_lane = True
 							count = count + 1
+
 			frame_lanes[int(frame)].append(count)
 			coord_txt.close()
 
@@ -316,6 +334,7 @@ class SCNN:
 		print("**** FINDING CONFIDENCE ****")
 		global frames_sorted
 		global frame_lanes
+
 		for i in range(len(frames_sorted)):
 			frame = str(i + 1)
 			conf_name = self.path_2_predict + frame + ".conf.txt"
@@ -333,14 +352,17 @@ class SCNN:
 		data = []
 		global frames_sorted
 		global frame_lanes
+
 		for i in range(len(frames_sorted)):
 			frame = i + 1
 			count = frame_lanes[frame][0]
 			lane = frame_lanes[frame][1]
 			conf = frame_lanes[frame][2]
 			data.append({"frame": frame, "lanes_count": count, "current_lane": lane, "confidence": conf})
+		
 		json.dump(data, json_file, indent=4)
 		json_file.close()
+		
 		return json.dumps(data, indent=4)
 
 
@@ -366,6 +388,7 @@ class SCNN:
 		self.conf()
 		ret = self.json()
 		self.clean_all()
+		
 		return ret
 
 
