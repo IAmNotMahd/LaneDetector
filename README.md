@@ -1,4 +1,4 @@
-## LaneDetector
+# LaneDetector
 
 ### Introduction
 The purpose of Lane Detector is to take Swarm Image or Video and detect upto 4 lanes in the input; it then generates a suitable output (image or video) with the lanes marked. LaneDetector, finally, tells you for each frame (in a JSON file):
@@ -141,7 +141,26 @@ output directory structure, SCNN directory structure, high-level directory struc
 
 ### CLI Usage
 Currently, CLI usage is limited to prepending the command with "python" since I am still developing the executable.
-image and video
 
 ### Examples
 images and json and code similar to carmera darknet setup stuffz
+
+### Progress
+
+The following is a side-by-side comparison of lane detection on a swarm image before and after training on 300 swarm images. The images are accompanied by their json files for completeness.
+
+<img align="middle" width="700" height="280" src="PrevsPost.jpg">   
+
+```python
+{                                                   .       {
+        "frame": 8,                                 .               "frame": 8,    
+        "lanes_count": 2,                           .               "lanes_count": 4,
+        "current_lane": 1,                          .               "current_lane": 2,
+        "confidence": [                             .               "confidence": [ 
+            "0.059574499726295",                    .                   "0.059574499726295",
+            "0.63049477338791",                     .                   "0.63049477338791",
+            "0.54215651750565",                     .                   "0.54215651750565",
+            "0.015660993754864"                     .                   "0.015660993754864" 
+        ]                                           .               ]
+    }                                               .           }
+```
