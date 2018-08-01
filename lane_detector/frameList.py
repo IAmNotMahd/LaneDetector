@@ -121,13 +121,25 @@ class SCNN:
 		txt.close()
 
 
+	# Resize image to comply with SCNN requirements
+	def resize(self):
+		print("**** MAKING RESIZED IMAGES ****")
+		global framesSorted
+		out_width = 1640
+		out_height = 590
+		for i in range(len(framesSorted)):
+			orig_image = Image.open(self.destination + "/" + str(i + 1) + ".jpg")
+			scaled_image = orig_image.resize((out_width, out_height), Image.NEAREST)
+			scaled_image.save(self.destination + "/" + str(i + 1) + ".jpg")
+
+
 	# Simply, run the SCNN testing script to generate a probability map for each lane per frame (4 maps per frame). The probability
 	# maps are stored in the "predicts/" folder
 	def probMaps(self):
 		if (self.scnn):
 			print("**** MAKING PROBABILITY MAPS ****")
 			self.makedir(self.predict)
-			model = "-model experiments/pretrained/vgg_SCNN_DULR_w9.t7 "
+			model = "-model experiments/pretrained/model_best_rz.t7 "
 			data = "-data ./data "
 			val = "-val " + self.base + "test.txt "
 			save = "-save " + self.predict + " "
@@ -181,7 +193,7 @@ class SCNN:
 		print("**** MAKING LANE COORDINATES ****")
 		with self.cd("./tools/prob2lines"):
 			path2SCNN = "../../"
-			exp1 = "vgg_SCNN_DULR_w9"
+			exp1 = "model_best_rz"
 			data1 = path2SCNN + "data"
 			probRoot1 = path2SCNN + self.predict + self.destination[5:]
 			output1 = path2SCNN + self.destination
@@ -318,8 +330,8 @@ class SCNN:
 			conf = frameLanes[frame][2]
 			data.append({"frame": frame, "lanes_count": count, "current_lane": lane, "confidence": conf})
 		json.dump(data, jsonFile, indent=4)
-		return json.dumps(data, indent=4)
 		jsonFile.close()
+		return json.dumps(data, indent=4)
 
 
 	# Clean all temporary files if relevant flag passes
@@ -333,6 +345,7 @@ class SCNN:
 		self.vidOrImg()
 		self.splice()
 		self.makeTest()
+		self.resize()
 		self.probMaps()
 		self.avgProbMaps()
 		self.laneCoord()

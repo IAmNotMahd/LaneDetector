@@ -64,10 +64,11 @@ SCNN_CLEAN if enabled, will remove all temporary output files (only the json obj
 ### Usage
 
 #### API:
+`python frameList.py <path-to-image/video> -flag1 -flag2 `
 
 #### Example:
 ```python
-!/usr/bin/python
+#!/usr/bin/python
 import argparse
 from lane_detector import frameList
 
@@ -108,6 +109,7 @@ The output is stored in `data.json` as well as printed out (if using the above s
             "0.0047715208493173"
         ]
     },
+    ...
     {
         "frame": 6,
         "lanes_count": 4,
@@ -119,7 +121,7 @@ The output is stored in `data.json` as well as printed out (if using the above s
             "0.99161434173584"
         ]
     },
-    ....
+    ...
 ```
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure

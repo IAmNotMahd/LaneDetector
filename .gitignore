@@ -21,3 +21,4 @@ doc/**/*.txt
 /SCNN/gen
 /SCNN/seg_label_generate/*
 /SCNN/tools/*
+/SCNN/data/*
