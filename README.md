@@ -45,15 +45,13 @@ Use the appropriate flags that you need
 
 install.sh copies custom scripts from the Backup folder into their correct directories
 
-3. Place images/videos to be tested on in the `LaneDetector/SCNN/data/` folder
-
-4. Install the lane_detector module
+3. Install the lane_detector module
 ```shell
 $ python3 setup.py install
 ```
-5. Download the pre-trained weights file either manually or by running `sh install.sh -w`
+4. Download the pre-trained weights file either manually or by running `sh install.sh -w`
 
-6. Configuration: you can configure the module either by pre setting environment variables, or by passing the configuration as arguments to the constructor. Use the `-h` flag for additional information
+5. Configuration: you can configure the module either by pre setting environment variables, or by passing the configuration as arguments to the constructor. Use the `-h` flag for additional information
 ```
 SCNN_SCNN if enabled, will run SCNN probability map generation
 SCNN_VIDEO if enabled, will run video generation (prototype)
@@ -64,7 +62,7 @@ SCNN_CLEAN if enabled, will remove all temporary output files (only the json obj
 ### Usage
 
 #### API:
-`python frameList.py <path-to-image/video> -flag1 -flag2 `
+`python importTester.py <path-to-image/video> -flag1 -flag2 `
 
 #### Example:
 ```python
@@ -123,6 +121,17 @@ The output is stored in `data.json` as well as printed out (if using the above s
     },
     ...
 ```
+All the temporary files generated are stored in `/SCNN/data/`.
+The files include:
+```
+Curves/   : Input images with lanes curves drawn. This is the output from seg_label_generate  
+data.json : The sample json data
+predicts/ : Probability maps along with exist.txt (how many lanes present) and conf.txt (the confidence of all lanes)
+Prob/     : The sum of all four lanes' probability maps for an image
+Source/   : The copy of the source directory for immutability
+Spliced/  : The images spliced after video splicing or renamed image files if source was video
+test.txt  : The required test.txt file by SCNN
+```	
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure
 

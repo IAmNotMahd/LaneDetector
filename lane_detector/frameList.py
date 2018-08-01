@@ -19,21 +19,33 @@ class SCNN:
 
 	def __init__(self, **kwargs):
 		currentDir = os.path.dirname(__file__)
-		path2SCNN = "/".join(currentDir.split("/")[:-1]) + "/" + "SCNN/"	
+		path2SCNN = "/".join(currentDir.split("/")[:-1]) + "/" + "SCNN/"
+		path2Data = path2SCNN + "data/"
+		path2Source = path2Data + "Source"
+		path2Source = "".join(path2Source.rsplit(path2SCNN))
+		print(path2Source)
 		os.chdir(path2SCNN)
+		self.makedir(path2Source)
 
-		self.source = kwargs['source']
-		self.source = "".join(self.source.rsplit(path2SCNN))
+		origin = kwargs['source']
+		src_files = os.listdir(origin)
+		for file_name in src_files:
+			full_file_name = os.path.join(origin, file_name)
+			if (os.path.isfile(full_file_name)):
+				shutil.copy(full_file_name, path2Source)
+		self.source = path2Source
 		self.environ = kwargs['environ']
 		self.scnn = kwargs['scnn']
 		self.video = kwargs['video']
 		self.debug = kwargs['debug']
 		self.clean = kwargs['clean']
+
 		if (self.environ == True):
 			self.scnn = os.getenv("SCNN_SCNN")
 			self.video = os.getenv("SCNN_VIDEO")
 			self.debug = os.getenv("SCNN_DEBUG")
 			self.clean = os.getenv("SCNN_CLEAN")
+
 		self.base = "/".join(self.source.split("/")[:-1]) + "/"
 		self.predict = self.base + "predicts/"
 		self.destination = self.base + "Spliced"
