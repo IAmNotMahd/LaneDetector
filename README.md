@@ -62,13 +62,13 @@ SCNN_CLEAN if enabled, will remove all temporary output files
 ### Usage
 
 #### API:
-`python importTester.py <ABSOLUTE-path-to-image/video> -flag1 -flag2 `
+`python import_tester.py <ABSOLUTE-path-to-image/video> -flag1 -flag2 `
 
 #### Example:
 ```python
 #!/usr/bin/python
 import argparse
-from lane_detector import frameList
+from lane_detector import frame_list
 
 parser = argparse.ArgumentParser()
 parser.add_argument("source", help = "Path to video or image directory")
@@ -79,8 +79,8 @@ parser.add_argument("-d", "--debug", help = "RUN in debug mode (output displayed
 parser.add_argument("-c", "--clean", help = "REMOVE all generated folders and files", action = "store_true", default = False)
 args = vars(parser.parse_args())
 
-scnnTest = frameList.SCNN(**args)
-print(scnnTest.runAll())
+scnn_test = frame_list.SCNN(**args)
+print(scnn_test.run_all())
 ```
 The output is stored in `data.json` as well as printed out (if using the above sample). The json file looks like:
 ```python
