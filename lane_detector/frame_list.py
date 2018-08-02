@@ -341,6 +341,7 @@ class SCNN:
 			conf_txt = open(conf_name, "r")
 			conf_read = conf_txt.read().replace("\n", "")
 			conf_list = conf_read.split(" ")[:-1]
+			conf_list = [float(i) for i in conf_list]
 			frame_lanes[int(frame)].append(conf_list)
 			conf_txt.close()
 
