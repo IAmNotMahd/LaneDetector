@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 '''
 Lane Detector:
 A tool that wraps around SCNN's testing process.
@@ -24,12 +26,10 @@ class SCNN:
     '''
     def __init__(self, **kwargs):
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        print(current_dir)
         path_2_scnn = "/".join(current_dir.split("/")[:-1]) + "/" + "SCNN/"
         path_2_data = path_2_scnn + "data/"
         path_2_source = path_2_data + "Source"
         path_2_source = "".join(path_2_source.rsplit(path_2_scnn))
-        print(path_2_scnn)
         os.chdir(path_2_scnn)
         self.makedir(path_2_source)
 
@@ -221,7 +221,7 @@ class SCNN:
         # removed in later releases (it is present for convenience). The results are stored in the
         # "Prob/" folder.
         '''
-        print("**** MAKING AVERAGES FROM PROBABILITY MAPS ****")
+        print("**** MAKING AVERAGES FROM PROBABILITY MAP ****")
         self.makedir(self.path_2_prob)
         global FRAMES_SORTED
 
@@ -476,4 +476,4 @@ if __name__ == "__main__":
     kwargs = vars(parser.parse_args())
 
     scnn_test = SCNN(**kwargs)
-    scnn_test.run_all()
+    print(scnn_test.run_all())
