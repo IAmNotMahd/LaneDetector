@@ -471,7 +471,7 @@ if __name__ == "__main__":
                         action="store_true", default=False)
     parser.add_argument("-c", "--clean", help="REMOVE all generated folders and files",
                         action="store_true", default=False)
-    args = vars(parser.parse_args())
+    kwargs = vars(parser.parse_args())
 
-    scnn_test = SCNN(**args)
+    scnn_test = SCNN(**kwargs)
     scnn_test.run_all()
