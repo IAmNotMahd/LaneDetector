@@ -160,3 +160,18 @@ The following is a side-by-side comparison of lane detection on a swarm image be
         ]                                           .               ]
 }                                                   .        }
 ```
+
+### Known Issues
+
+1. If you are running a version of OpenCV earlier than 3, you need to remove `opencv_imgcodecs` from line 18 in lane_detector/Makefile. Then run install.sh again
+
+2. Sometimes, depending on your version of CUDA, torch installation will fail with a possible "operator matches operand operator" error. The fix is to run the following:
+```shell
+cd ~/torch
+./clean.sh
+export TORCH_NVCC_FLAGS="-D__CUDA_NO_HALF_OPERATORS__"
+./install.sh
+```
+[Relevant github issue](https://github.com/torch/cutorch/issues/797).
+
+3. Running `sudo apt-get upgrade` overwrites path variables to the CUDA directory. The simple fix is to restart your machine.
