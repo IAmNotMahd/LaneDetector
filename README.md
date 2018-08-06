@@ -13,6 +13,7 @@ LaneDetector, at its core, is Spatial Convolutional Neural Network (SCNN) develo
 - Detect type of lane marking as well (double yellow line, single white line etc.)
 - Propagate information between frames
 - Create docker container for SCNN
+- Convert coords.m to a python script to remove dependence on matlab
 - Improve video generation (ffmpeg is bad)
 - Train SCNN more on swarm images
 
@@ -165,7 +166,7 @@ The following is a side-by-side comparison of lane detection on a swarm image be
 
 1. If you are running a version of OpenCV earlier than 3, you need to remove `opencv_imgcodecs` from line 18 in lane_detector/Makefile. Then run install.sh again
 
-2. Sometimes, depending on your version of CUDA, torch installation will fail with a possible "operator matches operand operator" error. The fix is to run the following:
+2. Sometimes, depending on your version of CUDA, torch installation will fail with a possible "operator matches operand" error. The fix is to run the following:
 ```shell
 cd ~/torch
 ./clean.sh

@@ -20,7 +20,7 @@ NUM_IMAGES = 1001
 
 class SCNN:
     '''
-    Class is essentially a SCNN wrapper
+    Class is essentially an SCNN wrapper
     '''
     def __init__(self, **kwargs):
         current_dir = os.path.dirname(os.path.abspath(__file__))
