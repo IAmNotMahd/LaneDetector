@@ -41,6 +41,7 @@ class SCNN:
                 shutil.copy(full_file_name, path_2_source)
 
         self.source = path_2_source
+        self.weights = kwargs['weights']
         self.scnn = kwargs['scnn']
         self.video = kwargs['video']
         self.debug = kwargs['debug']
@@ -52,6 +53,7 @@ class SCNN:
             self.video = os.getenv("SCNN_VIDEO")
             self.debug = os.getenv("SCNN_DEBUG")
             self.clean = os.getenv("SCNN_CLEAN")
+            self.weights = os.getenv("SCNN_WEIGHTS")
 
         self.base = "/".join(self.source.split("/")[:-1]) + "/"
         self.predict = self.base + "predicts/"
@@ -189,7 +191,7 @@ class SCNN:
             print("**** MAKING PROBABILITY MAPS ****")
             self.makedir(self.predict)
 
-            model = "-model experiments/pretrained/model_best_rz.t7 "
+            model = "-model " + self.weights + " "
             data = "-data ./data "
             val = "-val " + self.base + "test.txt "
             save = "-save " + self.predict + " "
@@ -247,7 +249,7 @@ class SCNN:
 
         with self.cd("./tools/prob2lines"):
             path_2_scnn = "../../"
-            exp1 = "model_best_rz"
+            exp1 = self.weights
             data1 = path_2_scnn + "data"
             prob_root1 = path_2_scnn + self.predict + self.destination[5:]
             output1 = path_2_scnn + self.destination
@@ -463,6 +465,8 @@ class SCNN:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("source", help="Path to video or image directory")
+    parser.add_argument("-w", "--weights", help="Path to weights file",
+                        default='experiments/pretrained/model_best_rz.t7')
     parser.add_argument("-e", "--environ", help="USE Environment Variables instead",
                         action="store_true", default=False)
     parser.add_argument("-s", "--scnn", help="RUN SCNN probability map generation",

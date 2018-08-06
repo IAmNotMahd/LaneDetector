@@ -58,6 +58,7 @@ SCNN_SCNN if enabled, will run SCNN probability map generation
 SCNN_VIDEO if enabled, will run video generation (prototype)
 SCNN_DEBUG if enabled, will log the output of all files in the terminal
 SCNN_CLEAN if enabled, will remove all temporary output files. This uses shutil.rmtree(), be careful :)
+SCNN_WEIGHTS will use specified weights file instead of the default: experiments/pretrained/model_best_rz.t7
 ```
 
 ### Usage
@@ -73,6 +74,7 @@ SCNN_CLEAN if enabled, will remove all temporary output files. This uses shutil.
 from lane_detector import frame_list
 
 scnn_test = frame_list.SCNN(source='/absolute/path/to/source',
+                            weights='path/to/weights/file.t7',
                             environ=False,
                             scnn=True,
                             video=False,

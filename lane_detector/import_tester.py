@@ -5,6 +5,7 @@ from lane_detector import frame_list
 # import frame_list
 parser = argparse.ArgumentParser()
 parser.add_argument("source", help="Path to video or image directory")
+parser.add_argument("-w", "--weights", help="Path to weights file", default='experiments/pretrained/model_best_rz.t7')
 parser.add_argument("-e", "--environ", help="USE Environment Variables instead", action="store_true", default=False)
 parser.add_argument("-s", "--scnn", help="RUN SCNN probability map generation", action="store_true", default=False)
 parser.add_argument("-v", "--video", help="RUN video generation", action="store_true", default=False)
