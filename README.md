@@ -64,6 +64,7 @@ SCNN_CLEAN if enabled, will remove all temporary output files. This uses shutil.
 #### API:
 
 `python lane_detector/import_tester.py <ABSOLUTE-path-to-image/video> -flag1 -flag2 `
+
 `lane_detector/lane_detector <ABSOLUTE-path-to-image/video> -flag1 -flag2 `
 
 #### Example:
