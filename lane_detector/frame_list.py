@@ -216,10 +216,10 @@ class SCNN:
 
     def avg_prob_maps(self):
         '''
-        # Add each lane probability map to generate per frame probability map (will all lanes in one
-        # image). Simple addition of probability maps is not ideal; therefore, this block might be
-        # removed in later releases (it is present for convenience). The results are stored in the
-        # "Prob/" folder.
+        Add each lane probability map to generate per frame probability map (will all lanes in one
+        image). Simple addition of probability maps is not ideal; therefore, this block might be
+        removed in later releases (it is present for convenience). The results are stored in the
+        "Prob/" folder.
         '''
         print("**** MAKING AVERAGES FROM PROBABILITY MAPS ****")
         self.makedir(self.path_2_prob)
