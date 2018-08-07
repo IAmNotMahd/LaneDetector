@@ -24,24 +24,32 @@ class SCNN:
     Class is essentially an SCNN wrapper
     '''
     def __init__(self, **kwargs):
+        global VIDEO_FLAG
+
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        print(current_dir)
         path_2_scnn = "/".join(current_dir.split("/")[:-1]) + "/" + "SCNN/"
         path_2_data = path_2_scnn + "data/"
         path_2_source = path_2_data + "Source"
         path_2_source = "".join(path_2_source.rsplit(path_2_scnn))
-        print(path_2_scnn)
         os.chdir(path_2_scnn)
         self.makedir(path_2_source)
 
         origin = kwargs['source']
-        src_files = os.listdir(origin)
-        for file_name in src_files:
-            full_file_name = os.path.join(origin, file_name)
-            if os.path.isfile(full_file_name):
-                shutil.copy(full_file_name, path_2_source)
+        if origin[-4:] == ".mp4":
+            VIDEO_FLAG = True
+            print("**** DETECTED VIDEO FILE ****")
+            shutil.copy(origin, path_2_data)
+            self.source = path_2_source[:-6] + "swarm-data.mp4"
+        else:
+            VIDEO_FLAG = False
+            print("**** DETECTED IMAGE FOLDER ****")
+            src_files = os.listdir(origin)
+            for file_name in src_files:
+                full_file_name = os.path.join(origin, file_name)
+                if os.path.isfile(full_file_name):
+                    shutil.copy(full_file_name, path_2_source)
+                    self.source = path_2_source
 
-        self.source = path_2_source
         self.weights = kwargs['weights']
         self.scnn = kwargs['scnn']
         self.video = kwargs['video']
@@ -63,6 +71,8 @@ class SCNN:
         self.path_2_predict = self.predict + self.destination[5:] + "/"
         self.path_2_vid = self.base + "Videos"
         self.path_2_curves = self.base + "Curves"
+        self.makedir(self.destination)
+
 
     '''
     def parse(self):
@@ -100,21 +110,6 @@ class SCNN:
         finally:
             os.chdir(prev_dir)
 
-
-    def vid_or_img(self):
-        '''
-        Check whether input is video or image
-        '''
-        global VIDEO_FLAG
-
-        if self.source[-4:] == ".mp4":
-            VIDEO_FLAG = True
-            print("**** DETECTED VIDEO FILE ****")
-        else:
-            VIDEO_FLAG = False
-            print("**** DETECTED IMAGE FOLDER ****")
-
-        self.makedir(self.destination)
 
 
     def splice(self):
@@ -157,7 +152,6 @@ class SCNN:
         '''
         print("**** MAKING TEST.TXT FILE ****")
         global FRAMES_SORTED
-
         frames = os.listdir(self.destination)
         FRAMES_SORTED = sorted(([s.strip('.jpg') for s in frames]), key=int)
         txt = open(self.base + "test.txt", "w+")
@@ -436,7 +430,10 @@ class SCNN:
             os.remove(self.base + "data.json")
             shutil.rmtree(self.predict)
             shutil.rmtree(self.path_2_prob)
-            shutil.rmtree(self.source)
+            if VIDEO_FLAG:
+                os.remove(self.source)
+            else:
+                shutil.rmtree(self.source)
             shutil.rmtree(self.destination)
             os.remove(self.base + "test.txt")
 
@@ -447,7 +444,6 @@ class SCNN:
         '''
         time_1 = time.time()
 
-        self.vid_or_img()
         self.splice()
         self.make_test()
         self.resize()

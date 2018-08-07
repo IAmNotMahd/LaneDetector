@@ -79,7 +79,6 @@ scnn_test = frame_list.SCNN(source='/absolute/path/to/source',
                             scnn=True,
                             video=False,
                             debug=True,
-                            perf=True,
                             clean=True)
 print(scnn_test.run_all())
 ```
