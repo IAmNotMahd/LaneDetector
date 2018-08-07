@@ -140,7 +140,17 @@ output directory structure, SCNN directory structure, high-level directory struc
 
 ### Progress
 
-The following is a side-by-side comparison of lane detection on a swarm image before and after training on 300 swarm images. The images are accompanied by their json files for completeness.
+1. The whole pipeline works at 2.04 frames per second (for spliced images). Be advised that splicing a video to generate images takes a lot of time. For 180 swarm images, it took:
+
+    a. 54.37 seconds for SCNN to generate probability maps
+
+    b. 15.95 seconds for matlab to get coordinates
+
+    c. 8.98 seconds to get curves from cubic splines
+
+The test was on paperspace machine with 30GB RAM, 8 CPUS, and a 24GB GPU.
+
+2. The following is a side-by-side comparison of lane detection on a swarm image before and after training on 300 swarm images. The images are accompanied by their json files for completeness.
 
 <img align="middle" width="700" height="280" src="PrevsPost.jpg">   
 
