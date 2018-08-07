@@ -11,6 +11,7 @@ import argparse
 from contextlib import contextmanager
 from PIL import Image
 import numpy
+import time
 
 VIDEO_FLAG = True
 FRAMES_SORTED = []
@@ -444,20 +445,45 @@ class SCNN:
         '''
         Run the whole pipeline
         '''
+        time_1 = time.time()
+
         self.vid_or_img()
         self.splice()
         self.make_test()
         self.resize()
+
+        time_scnn_1 = time.time()
         self.prob_maps()
+        time_scnn = time.time() - time_scnn_1
+
         self.avg_prob_maps()
+        time_matlab_1 = time.time()
         self.lane_coord()
+        time_matlab = time.time() - time_matlab_1
+
+        time_seg_1 = time.time()
         self.lane_curve()
+        time_seg = time.time() - time_seg_1
+
         self.gen_video()
+
+        time_post_1 = time.time()
         self.check_lanes()
         self.check_current_lane()
         self.conf()
         ret = self.json()
         self.clean_all()
+        time_post = time.time() - time_post_1
+
+        time_all = time.time() - time_1
+        num = len(FRAMES_SORTED)
+        fps = num / time_all
+        print("**** TIME TO RUN SCNN: {0}".format(time_scnn))
+        print("**** TIME TO GET COORDS: {0}".format(time_matlab))
+        print("**** TIME TO MAKE CURVES: {0}".format(time_seg))
+        print("**** TIME TO GET INFO: {0}".format(time_post))
+        print("**** TOTAL TIME: {0}".format(time_all))
+        print("**** FRAMES PER SECOND: {0}".format(fps))
 
         return ret
 

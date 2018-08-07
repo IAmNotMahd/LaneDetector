@@ -79,6 +79,7 @@ scnn_test = frame_list.SCNN(source='/absolute/path/to/source',
                             scnn=True,
                             video=False,
                             debug=True,
+                            perf=True,
                             clean=True)
 print(scnn_test.run_all())
 ```
@@ -137,12 +138,6 @@ If you pass the `--clean` flag, these files and folders will be removed.
 
 ### Directory Structure
 output directory structure, SCNN directory structure, high-level directory structure
-
-### CLI Usage
-Currently, CLI usage is limited to prepending the command with "python" since I am still developing the executable.
-
-### Examples
-images and json and code similar to carmera darknet setup stuffz
 
 ### Progress
 
