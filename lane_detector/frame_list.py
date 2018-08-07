@@ -32,7 +32,6 @@ class SCNN:
         path_2_source = path_2_data + "Source"
         path_2_source = "".join(path_2_source.rsplit(path_2_scnn))
         os.chdir(path_2_scnn)
-        self.makedir(path_2_source)
 
         origin = kwargs['source']
         if origin[-4:] == ".mp4":
@@ -43,6 +42,7 @@ class SCNN:
         else:
             VIDEO_FLAG = False
             print("**** DETECTED IMAGE FOLDER ****")
+            self.makedir(path_2_source)
             src_files = os.listdir(origin)
             for file_name in src_files:
                 full_file_name = os.path.join(origin, file_name)
