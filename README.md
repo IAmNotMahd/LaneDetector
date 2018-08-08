@@ -157,7 +157,7 @@ The test was on paperspace machine with 30GB RAM, 8 CPUS, and a 24GB GPU.
 ```python
 {                                                   .       {
         "frame": 8,                                 .               "frame": 8,    
-        "lanes_count": 2,                           .               "lanes_count": 4,
+        "lanes_count": 1,                           .               "lanes_count": 3,
         "current_lane": 1,                          .               "current_lane": 2,
         "confidence": [                             .               "confidence": [ 
             0.059574499726295,                      .                   0.80903887748718,

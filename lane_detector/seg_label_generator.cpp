@@ -334,7 +334,7 @@ void SegLabelGenerator::showLabels(const string &im_name, int width, int wait_ti
 		}
 
 	}
-	resize(im, im, Size(820,295), 0, 0, INTER_NEAREST);
+	resize(im, im, Size(1640, 590), 0, 0, INTER_NEAREST);
 	//imshow(window_name, im);
 	printf("im_name is %s\n", im_name.c_str());
 	printf("output_image_path is %s\n", output_image_path.c_str());

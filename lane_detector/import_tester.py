@@ -14,4 +14,4 @@ parser.add_argument("-c", "--clean", help="REMOVE all generated folders and file
 kwargs = vars(parser.parse_args())
 
 scnn_test = frame_list.SCNN(**kwargs)
-scnn_test.run_all()
+print(scnn_test.run_all())

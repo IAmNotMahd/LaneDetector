@@ -11,6 +11,7 @@ import argparse
 from contextlib import contextmanager
 from PIL import Image
 import numpy
+import cv2
 import time
 
 VIDEO_FLAG = True
@@ -124,7 +125,9 @@ class SCNN:
         if VIDEO_FLAG:
             print("**** SPLICING VIDEO INTO FRAMES ****")
             mp4_file = open(self.source, 'r')
-            os.system("ffmpeg -loglevel panic -i {0} -r 0.1 {1}/%1d.jpg".format(mp4_file.name,
+            #os.system("ffmpeg -loglevel panic -i {0} -r 0.1 {1}/%1d.jpg".format(mp4_file.name,
+            #
+            os.system("ffmpeg -loglevel panic -i {0} {1}/%1d.jpg".format(mp4_file.name,
                                                                                 self.destination))
             mp4_file.close()
 
@@ -300,8 +303,8 @@ class SCNN:
         if self.video:
             print("**** MAKING ALL VIDEOS ****")
             self.makedir(self.path_2_vid)
-            os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/prob.mp4".format(self.path_2_prob, self.path_2_vid))
             os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/curve.mp4".format(self.path_2_curves, self.path_2_vid))
+
         else:
             print("**** BYPASSED: VIDEO GENERATION ****")
 
@@ -408,7 +411,7 @@ class SCNN:
 
         for i in range(len(FRAMES_SORTED)):
             frame = i + 1
-            count = FRAME_LANES[frame][0]
+            count = FRAME_LANES[frame][0] -1 # lanes = number of lines - 1
             lane = FRAME_LANES[frame][1]
             conf = FRAME_LANES[frame][2]
             data.append({"frame": frame, "lanes_count": count,
