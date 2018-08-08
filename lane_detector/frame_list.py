@@ -308,15 +308,19 @@ class SCNN:
             height = 590
             layers = 3
 
-            video = cv2.VideoWriter("/home/paperspace/Backup/LaneDetector/SCNN/data/Videos/curve.avi", -1, 1, (width, height))
+
+            output = "/home/paperspace/Backup/LaneDetector/SCNN/data/Videos/curve.mp4"
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+            out = cv2.VideoWriter(output, fourcc, 20.0, (width, height))
+            #video = cv2.VideoWriter("/home/paperspace/Backup/LaneDetector/SCNN/data/Videos/curve.avi", -1, 1, (width, height))
             for i in range(len(FRAMES_SORTED)):
                 im_name = str(i + 1)
                 img = cv2.imread(self.path_2_curves + "/" + im_name + ".jpg")
-                video.write(img)
+                out.write(img)
                 print("IN LOOP BOIS")
 
             cv2.destroyAllWindows()
-            video.release()
+            out.release()
             #os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/curve.mp4".format(self.path_2_curves, self.path_2_vid))
         else:
             print("**** BYPASSED: VIDEO GENERATION ****")
