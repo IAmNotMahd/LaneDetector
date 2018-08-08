@@ -125,10 +125,10 @@ class SCNN:
         if VIDEO_FLAG:
             print("**** SPLICING VIDEO INTO FRAMES ****")
             mp4_file = open(self.source, 'r')
-            #os.system("ffmpeg -loglevel panic -i {0} -r 0.1 {1}/%1d.jpg".format(mp4_file.name,
-            #
-            os.system("ffmpeg -loglevel panic -i {0} {1}/%1d.jpg".format(mp4_file.name,
-                                                                                self.destination))
+            os.system("ffmpeg -loglevel panic -i {0} -qscale:v 2 -r 0.1 {1}/%1d.jpg".format(mp4_file.name,
+                                                                                            self.destination))
+            #os.system("ffmpeg -loglevel panic -i {0} {1}/%1d.jpg".format(mp4_file.name,
+            #                                                                    self.destination))
             mp4_file.close()
 
         else:
@@ -303,8 +303,21 @@ class SCNN:
         if self.video:
             print("**** MAKING ALL VIDEOS ****")
             self.makedir(self.path_2_vid)
-            os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/curve.mp4".format(self.path_2_curves, self.path_2_vid))
+            global FRAMES_SORTED
+            width = 1640
+            height = 590
+            layers = 3
 
+            video = cv2.VideoWriter("/home/paperspace/Backup/LaneDetector/SCNN/data/Videos/curve.avi", -1, 1, (width, height))
+            for i in range(len(FRAMES_SORTED)):
+                im_name = str(i + 1)
+                img = cv2.imread(self.path_2_curves + "/" + im_name + ".jpg")
+                video.write(img)
+                print("IN LOOP BOIS")
+
+            cv2.destroyAllWindows()
+            video.release()
+            #os.system("ffmpeg -loglevel panic -framerate 24 -i {0}/%1d.jpg {1}/curve.mp4".format(self.path_2_curves, self.path_2_vid))
         else:
             print("**** BYPASSED: VIDEO GENERATION ****")
 
